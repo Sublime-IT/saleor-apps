@@ -71,7 +71,12 @@ const handler: NextWebhookApiHandler<OrderCreatedWebhookPayloadFragment> = async
     channel,
     client,
     event: "ORDER_CREATED",
-    payload: { order: payload.order },
+    payload: {
+      order: {
+        number: `WO${payload.order.number?.toString().padStart(6, "0")}`,
+        ...payload.order,
+      },
+    },
     recipientEmail,
   });
 
