@@ -1,0 +1,148 @@
+<mjml>
+  <mj-head>
+    <mj-style>
+    </mj-style>
+  </mj-head>
+  <mj-body>
+    <mj-section padding-bottom="0px">
+      <mj-column padding="0px">
+        <mj-text font-size="22px" font-weight="700">
+          Thank you for your order
+        </mj-text>
+        <mj-text font-size="13px" font-weight="700">
+          Order no. {{bcOrderNumber}}
+        </mj-text>
+         <mj-text line-height="18px" font-size="13px">
+          Dear {{order.shippingAddress.firstName}},
+        </mj-text>
+        <mj-text line-height="18px" font-size="13px">
+          Congratulations on your new Vipp product(s)
+          and thank you for shopping at <a href="https://vipp.com" style="text-decoration: underline">Vipp.com</a>.
+          This confirmation contains details regarding your order no. {{bcOrderNumber}}.
+        </mj-text>
+          <mj-text line-height="18px" font-size="13px">
+          You are always welcome to contact our
+          customer service in case you have any
+          questions. Contact us by e-mail at
+          <a href="mailto:webshop@vipp.com" style="text-decoration: underline">webshop@vipp.com</a> or by telephone at <a href="tel:+4545888800" style="text-decoration: underline">+45 4588 8800</a> (Mon-Thur 8am-4pm, Fri 8am-3pm CET). Please refer to your web order no. when contacting us.
+        </mj-text>
+        <mj-text line-height="18px" font-size="13px">
+          We wish you a lovely day and thank you again for shopping with us.
+        </mj-text>
+        <mj-text line-height="18px" font-size="13px">
+          Kind regards, <br>Vipp Customer Service</mj-text>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-text font-weight="700" font-size="13px" padding-bottom="0" padding-top="0">Order details</mj-text>
+        <mj-divider border-width="1px"></mj-divider>
+        <mj-table font-size="13px" line-height="18px">
+          <thead>
+            <tr>
+              <th align="left">
+                Shipping address
+              </th>
+              <th align="left">
+                Billing address
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-size: 13px; line-height: 18px;">
+                {{#if order.shippingAddress}}
+                  {{ order.shippingAddress.firstName }} {{order.shippingAddress.lastName}}
+                  <br />
+                  {{ order.shippingAddress.streetAddress1 }}
+                  <br />
+                  {{#if order.shippingAddress.streetAddress2}}
+                    {{ order.shippingAddress.streetAddress2 }}
+                    <br />
+                  {{/if}}
+                  {{order.shippingAddress.postalCode}} {{order.shippingAddress.city}}
+                  </br>
+                  {{order.shippingAddress.country.country}}
+                {{/if}}
+              </td>
+              <td style="font-size: 13px; line-height: 18px;">
+                {{#if order.billingAddress}}
+                  {{ order.billingAddress.firstName }} {{order.shippingAddress.lastName}}
+                  <br />
+                  {{ order.billingAddress.streetAddress1 }}
+                  <br />
+                  {{#if order.billingAddress.streetAddress2}}
+                    {{ order.billingAddress.streetAddress2 }}
+                    <br />
+                  {{/if}}
+                  {{order.billingAddress.postalCode}} {{order.billingAddress.city}}
+                  </br>
+                  {{order.billingAddress.country.country}}
+                {{/if}}
+              </td>
+            </tr>
+          </tbody>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    <mj-section padding="0px">
+      <mj-column>
+        <mj-table cellpadding="5x">
+          <tbody>
+            {{#each order.lines }}
+              <tr>
+                <td width="100">
+                  <img width="100" src="{{this.thumbnail.url}}" />
+                </td>
+                <td align="left">
+
+                  {{this.productName}} - {{this.variantName}}
+                  <br />
+                  Quantity: {{this.quantity}}
+                </td>
+                <td style="white-space: nowrap">
+                  {{this.unitPrice.gross.amount}} {{this.unitPrice.gross.currency}}
+                </td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+    <mj-section>
+      <mj-column>
+        <mj-divider border-width="1px"></mj-divider>
+        <mj-table>
+          <tbody>
+            <tr>
+              <td width="100px">
+                Subtotal:
+              </td>
+              <td align="left">
+                {{order.subtotal.gross.amount}} {{order.subtotal.gross.currency}}
+              </td>
+
+            </tr>
+            <tr>
+              <td width="100px">
+                Shipping:
+              </td>
+              <td align="left">
+                {{order.shippingPrice.gross.amount}} {{order.shippingPrice.gross.currency}}
+              </td>
+
+            </tr>
+            <tr>
+              <td width="100px">
+                Total:
+              </td>
+              <td align="left">
+                {{order.total.gross.amount}} {{order.total.gross.currency}}
+              </td>
+            </tr>
+          </tbody>
+        </mj-table>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

@@ -73,7 +73,7 @@ const handler: NextWebhookApiHandler<OrderCreatedWebhookPayloadFragment> = async
     event: "ORDER_CREATED",
     payload: {
       bcOrderNumber: `WO${order?.number?.toString().padStart(6, "0")}`,
-      order: payload.order,
+      order: formatWithThousandSeparatorsAndDecimals(payload.order),
     },
     recipientEmail,
   });
@@ -88,3 +88,37 @@ export const config = {
     bodyParser: false,
   },
 };
+
+function formatWithThousandSeparatorsAndDecimals(obj: any) {
+  // Helper function to check if a property is an object
+  function isObject(value: any) {
+    return value && typeof value === "object" && !Array.isArray(value);
+  }
+
+  // Recursively process each property
+  for (let key in obj) {
+    if (isObject(obj[key])) {
+      // Recursive call for nested objects
+      formatWithThousandSeparatorsAndDecimals(obj[key]);
+    } else if (Array.isArray(obj[key])) {
+      // Process each element in the array
+      obj[key].forEach((element: any) => {
+        if (isObject(element)) {
+          formatWithThousandSeparatorsAndDecimals(element);
+        }
+      });
+    } else if (
+      key === "amount" &&
+      (typeof obj[key] === "number" || (typeof obj[key] === "string" && !isNaN(obj[key])))
+    ) {
+      // Ensure the amount is a number and format it
+      const numericAmount = Number(obj[key]); // Convert to number if it's a string
+
+      obj[key] = numericAmount.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      });
+    }
+  }
+  return obj;
+}
